@@ -1,9 +1,9 @@
-pipeline{
+pipeline {
     agent any
 
     environment {
         AWS_DEFAULT_REGION = 'us-east-1'
-        REPOSITORY_URL ="663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo" 
+        REPOSITORY_URL = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
     }
 
     tools {
@@ -12,31 +12,34 @@ pipeline{
     }
 
     stages {
-        stage ('Checkout Code') {
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
         }
-        stage ('RunSonarCloudAnalysis') {
+
+        stage('RunSonarCloudAnalysis') {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN1', variable: 'SONAR_TOKEN1')]) {
                     sh '''
                         sonar-scanner \
-                        -Dsonar-projectkey=agbaken-org_node_project \
+                        -Dsonar.projectKey=agbaken-org_node_project \
                         -Dsonar.organization=agbaken-org \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io \
                         -Dsonar.login=$SONAR_TOKEN1
                     '''
+                }
             }
         }
-        post {
-            success {
-                echo '✅ Sonar analysis successful'
-            }
-            failure {
-                echo '❌ Build failed. Check logs above for more details'
-            }
+    }
+
+    post {
+        success {
+            echo '✅ Sonar analysis successful'
+        }
+        failure {
+            echo '❌ Build failed. Check logs above for more details'
         }
     }
 }
