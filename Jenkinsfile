@@ -24,7 +24,7 @@ pipeline {
                     sh '''
                         docker run --rm \
                         -e SONAR_TOKEN1=${SONAR_TOKEN1} \
-                        -v ${pwd}:/usr/src \
+                        -v $(pwd):/usr/src \
                         sonarsource/sonar-scanner-cli \
                         -Dsonar.projectKey=agbaken-org_node_project \
                         -Dsonar.organization=agbaken-org \
