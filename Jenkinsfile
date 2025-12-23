@@ -26,7 +26,7 @@ pipeline{
                         -Dsonar.organization=agbaken-org \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.login=$SONAR_
+                        -Dsonar.login=$SONAR_TOKEN1
                     '''
             }
         }
