@@ -41,7 +41,7 @@ pipeline {
             echo '✅ Sonar analysis successful'
         }
         failure {
-            echo '❌ Build failed. Check logs above for more details'
+            echo '❌ Build failed. Check logs above for more details and further troubleshooting'
         }
     }
 }
