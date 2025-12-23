@@ -26,8 +26,8 @@ pipeline {
                         -e SONAR_TOKEN=$SONAR_TOKEN \
                         -v $(pwd):/usr/src \
                         sonarsource/sonar-scanner-cli \
-                        -Dsonar.projectKey=agbaken-org_agbaken-project \
-                        -Dsonar.organization=agbaken-org \
+                        -Dsonar.projectKey=kens-org_node-app \
+                        -Dsonar.organization=kens-org \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=https://sonarcloud.io 
                     '''
