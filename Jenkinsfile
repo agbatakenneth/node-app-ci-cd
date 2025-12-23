@@ -29,7 +29,7 @@ pipeline {
                         -Dsonar.projectKey=agbaken-org_node_project \
                         -Dsonar.organization=agbaken-org \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.host.url=https://sonarcloud.io 
                     '''
                 }
             }
