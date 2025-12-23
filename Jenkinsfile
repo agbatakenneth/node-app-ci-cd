@@ -19,7 +19,7 @@ pipeline{
         }
         stage ('RunSonarCloudAnalysis') {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN1' variable: 'SONAR_TOKEN1')]) {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN1', variable: 'SONAR_TOKEN1')]) {
                     sh '''
                         sonar-scanner \
                         -Dsonar-projectkey=agbaken-org_node_project \
