@@ -20,7 +20,7 @@ pipeline {
 
         stage('SonarCloud scan') {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN1', variable: 'SONAR_TOKEN1')]) {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
                         docker run --rm \
                         -e SONAR_TOKEN=$SONAR_TOKEN \
