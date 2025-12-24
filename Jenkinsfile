@@ -34,11 +34,15 @@ pipeline {
                 }
             }
         }
+        stage ('Login to ECR') {
+            steps {
+                withCredentials([aws(credentialsId: )])
+            }
     }
 
     post {
         success {
-            echo '✅ Sonar analysis successful'
+            echo '✅ Sonar analysis successfully completed'
         }
         failure {
             echo '❌ Build failed. Check logs above for more details and further troubleshooting'
