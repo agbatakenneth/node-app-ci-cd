@@ -4,6 +4,7 @@ pipeline {
     environment {
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URL = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
+        IMAGE_TAG = "$BUILD_NUMBER"
     }
 
     tools {
@@ -34,11 +35,41 @@ pipeline {
                 }
             }
         }
+        stage('Login to ECR') {
+            steps {
+                withCredentials([aws(credentialsId: 'AWS-ECR-CRED', accessKeyVariable:
+                'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']) {
+                    sh '''
+                        aws ecr get-login-password --region $AWS_DEFAULT_REGION \
+                         | docker login --username AWS --password-stdin $REPOSITORY_URL
+                    '''
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build -t my-app:$IMAGE_TAG app/
+                    docker my-app:$IMAGE_TAGE $REPOSITORY_URL:$IMAGE_TAG
+                '''
+            }
+        }
+        stage('Push to ECR') {
+            steps {
+                sh '''
+                    docker push $REPOSITORY_URL:$IMAGE_TAG
+                    kubectl set image deployment/my-app my-app=$REPOSITORY_URL:$IMAGE_TAG
+                '''
+            
+            }
+        }
     }    
 
     post {
         success {
             echo '✅ Sonar analysis successfully completed'
+            echo '✅ Build and Docker Push successfully'
+            echo ' Pushed Image: $REPOSITORY_URL:$IMAGE_TAG'
         }
         failure {
             echo '❌ Build failed. Check logs above for more details and further troubleshooting'
