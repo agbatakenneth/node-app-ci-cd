@@ -34,11 +34,7 @@ pipeline {
                 }
             }
         }
-        stage ('Login to ECR') {
-            steps {
-                withCredentials([aws(credentialsId: )])
-            }
-    }
+        
 
     post {
         success {
