@@ -51,15 +51,14 @@ pipeline {
             steps {
                 sh '''
                     docker build -t my-app:$IMAGE_TAG app/
-                    docker my-app:$IMAGE_TAGE $REPOSITORY_URL:$IMAGE_TAG
+                    docker tag my-app:$IMAGE_TAGE $REPOSITORY_URL:$IMAGE_TAG
                 '''
             }
         }
         stage('Push Image to ECR') {
             steps {
                 sh '''
-                    docker push $REPOSITORY_URL:$IMAGE_TAG
-                    kubectl set image deployment/my-app my-app=$REPOSITORY_URL:$IMAGE_TAG
+                    docker push $REPOSITORY_URL:$IMAGE_TAG              
                 '''
             
             }
