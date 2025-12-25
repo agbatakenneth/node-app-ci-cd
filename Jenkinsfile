@@ -63,13 +63,45 @@ pipeline {
             
             }
         }
+        stage('Deploy to Kubernetes'){
+            steps {
+                withCredentials([file(credentialsId: 'KUBECONFIG_DEVOPS', variable:
+                'KUBECONFIG')
+                aws(credentialsId: 'AWS-ECR-CRED', accessKeyVariable:
+                'AWS_ACCESS_KEY_ID', secrestKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh '''
+                        export KUBECONFIG=$KUBECONFIG
+                        export aws_default_region=us-east-1
+                        echo "installing prometheus monitor...."
+                        helm repo add prometheus-community https://
+                        prometheus-community.github.io/helm-charts || true
+
+                        helm repo update
+                        helm upgrade --install prometheus \
+                         prometheus-community/kube-prometheus-stack \
+                          --namespace monitoring --create-namespace
+
+                        echo "updating image tag in deployment.yaml..."
+                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" K8s/
+                        deployment.yaml
+
+                        echo "Applying kubernetes manifests...."
+                        kubectl apply -f k8s/
+
+                        echo "veryfying rollout...."
+                        kubectl rollout status deployment/node-app
+                        '''
+                }
+            }
+        }
     }    
 
     post {
         success {
             echo '✅ Sonar analysis successfully completed'
-            echo '✅ Build and Docker Push successfully'
+            echo '✅ Build and Docker Push successful'
             echo ' Pushed Image: $REPOSITORY_URL:$IMAGE_TAG'
+            echo '✅ Kubernetes Deployment successful'
         }
         failure {
             echo '❌ Build failed. Check logs above for more details and further troubleshooting'
