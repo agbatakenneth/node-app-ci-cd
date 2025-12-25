@@ -73,8 +73,8 @@ pipeline {
                         export KUBECONFIG=$KUBECONFIG
                         export aws_default_region=us-east-1
                         echo "installing prometheus monitor...."
-                        helm repo add prometheus-community https://
-                        prometheus-community.github.io/helm-charts || true
+                        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+                        
 
                         helm repo update
                         helm upgrade --install prometheus \
