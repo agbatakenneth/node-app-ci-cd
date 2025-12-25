@@ -99,7 +99,7 @@ pipeline {
     post {
         success {
             echo '✅ Sonar analysis successfully completed'
-            echo '✅ Build and Docker Push successful'
+            echo '✅ Build and Docker Push successfully'
             echo ' Pushed Image: $REPOSITORY_URL:$IMAGE_TAG'
             echo '✅ Kubernetes Deployment successful'
         }
