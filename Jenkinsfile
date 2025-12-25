@@ -66,7 +66,7 @@ pipeline {
         stage('Deploy to Kubernetes'){
             steps {
                 withCredentials([file(credentialsId: 'KUBECONFIG_DEVOPS', variable:
-                'KUBECONFIG')
+                'KUBECONFIG'),
                 aws(credentialsId: 'AWS-ECR-CRED', accessKeyVariable:
                 'AWS_ACCESS_KEY_ID', secrestKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh '''
