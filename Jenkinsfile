@@ -68,10 +68,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'KUBECONFIG_DEVOPS', variable:
                 'KUBECONFIG'),
                 aws(credentialsId: 'AWS-ECR-CRED', accessKeyVariable:
-                'AWS_ACCESS_KEY_ID', secrestKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                'AWS_ACCESS_KEY_ID', secrestkeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh '''
                         export KUBECONFIG=$KUBECONFIG
-                        export aws_default_region=us-east-1
+                        export AWS_DEFAULT_REGION=us-east-1
                         echo "installing prometheus monitor...."
                         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
                         
@@ -82,11 +82,11 @@ pipeline {
                           --namespace monitoring --create-namespace
 
                         echo "updating image tag in deployment.yaml..."
-                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" K8s/
-                        deployment.yaml
+                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" 
+                        K8s/deployment.yaml
 
                         echo "Applying kubernetes manifests...."
-                        kubectl apply -f k8s/
+                        kubectl apply -f K8s/
 
                         echo "veryfying rollout...."
                         kubectl rollout status deployment/node-app
