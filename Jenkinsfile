@@ -85,8 +85,8 @@ pipeline {
                           --create-namespace
 
                         echo "updating image tag in deployment.yaml..."
-                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" 
-                        k8s/deployment.yaml
+                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" k8s/deployment.yaml
+                        
 
                         echo "Applying kubernetes manifests...."
                         kubectl apply -f k8s/
