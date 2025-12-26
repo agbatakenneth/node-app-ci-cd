@@ -210,4 +210,4 @@ To avoid costs after testing:
 helm uninstall prometheus -n monitoring
 kubectl delete -f K8s/
 cd infra
-terraform destroy --auto-approve
+terraform destroy
