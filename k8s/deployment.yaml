@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: app
-        image: IMAGE_PLACEHOLDER
+        image: 663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo:29
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
         readinessProbe:
