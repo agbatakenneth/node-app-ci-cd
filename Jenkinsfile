@@ -5,7 +5,7 @@ pipeline {
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URL = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
         IMAGE_TAG = "$BUILD_NUMBER"
-        KUBECONFIG = "/path/to/kubeconfig"
+        KUBECONFIG = "${WORKSPACE}/kubeconfig"
     }
 
     tools {
@@ -76,6 +76,7 @@ pipeline {
                         echo "installing prometheus monitor...."
                         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
                         
+                        aws sts get-caller-identity
 
                         helm repo update
                         helm upgrade --install prometheus \
