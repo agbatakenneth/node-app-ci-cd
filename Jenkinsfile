@@ -5,6 +5,7 @@ pipeline {
         AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URL = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
         IMAGE_TAG = "$BUILD_NUMBER"
+        KUBECONFIG = "/path/to/kubeconfig"
     }
 
     tools {
