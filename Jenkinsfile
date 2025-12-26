@@ -84,10 +84,10 @@ pipeline {
 
                         echo "updating image tag in deployment.yaml..."
                         sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" 
-                        K8s/deployment.yaml
+                        k8s/deployment.yaml
 
                         echo "Applying kubernetes manifests...."
-                        kubectl apply -f K8s/
+                        kubectl apply -f k8s/
 
                         echo "veryfying rollout...."
                         kubectl rollout status deployment/node-app
