@@ -89,7 +89,7 @@ pipeline {
                         
 
                         echo "Applying kubernetes manifests...."
-                        kubectl apply -f k8s/deployment.yaml
+                        kubectl apply -f k8s/
 
                         echo "veryfying rollout...."
                         kubectl rollout status deployment/node-app
