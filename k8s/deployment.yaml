@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: 663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo:29
-        imagePullPolicy: IfNotPresent
+        image: ECR_URI:latest
         ports:
         - containerPort: 3000
         readinessProbe:

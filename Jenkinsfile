@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'us-east-1'
-        REPOSITORY_URL = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
-        IMAGE_TAG = "$BUILD_NUMBER"
-        KUBECONFIG = "${WORKSPACE}/kubeconfig"
+        REPOSITORY_URI = "663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        
     }
 
     tools {
@@ -52,14 +52,14 @@ pipeline {
             steps {
                 sh '''
                     docker build -t my-app:$IMAGE_TAG app/
-                    docker tag my-app:$IMAGE_TAG $REPOSITORY_URL:$IMAGE_TAG
+                    docker tag my-app:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
                 '''
             }
         }
         stage('Push Image to ECR') {
             steps {
                 sh '''
-                    docker push $REPOSITORY_URL:$IMAGE_TAG              
+                    docker push $REPOSITORY_URI:$IMAGE_TAG              
                 '''
             
             }
@@ -85,7 +85,7 @@ pipeline {
                           --create-namespace
 
                         echo "updating image tag in deployment.yaml..."
-                        sed -i "s|IMAGE_PLACEHOLDER|${REPOSITORY_URL}:${IMAGE_NUMBER}|g" k8s/deployment.yaml
+                        sed -i "s|ECR_URI:latest|${REPOSITORY_URI}:${IMAGE_TAG}|g" k8s/deployment.yaml
                         
 
                         echo "Applying kubernetes manifests...."
