@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ECR_URI:latest
+        image: IMAGE_PLACEHOLDER
         ports:
         - containerPort: 3000
         readinessProbe:
