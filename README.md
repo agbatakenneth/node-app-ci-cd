@@ -4,7 +4,7 @@
 This project demonstrates a production-ready DevOps workflow for deploying a Node.js application on AWS Kubernetes (EKS). It showcases full automation, code quality enforcement, containerization, CI/CD pipelines, and monitoring & observability — all implemented in a real-world enterprise style.
 
 Instead of just deploying an app, this project tells a story of how infrastructure, code, and operations come together to deliver reliable software.
-
+```
 🧱 Architecture at a Glance
 GitHub → Jenkins (EC2)
         ├── SonarCloud (Code Quality)
@@ -15,7 +15,7 @@ GitHub → Jenkins (EC2)
               ├── LoadBalancer Service
               ├── HPA (Auto Scaling)
               └── ServiceMonitor → Prometheus → Grafana
-
+```
 
 Think of this as a continuous feedback loop: Code → Build → Deploy → Monitor → Improve.
 
@@ -32,6 +32,7 @@ Visualization	Grafana
 Code Quality	SonarCloud
 Runtime	Node.js
 📂 Project Structure (Story of the Code)
+```
 end-to-end-node-ci-cd/
 ├── app/           # Node.js service and Dockerfile
 ├── infra/         # Terraform scripts (VPC, EKS, IAM, ECR)
@@ -39,7 +40,7 @@ end-to-end-node-ci-cd/
 ├── Jenkinsfile    # CI/CD orchestration
 ├── script.sh      # Bootstrap Jenkins server
 └── README.md
-
+```
 
 Everything is modular — infrastructure, app, and CI/CD are separated but fully connected.
 
@@ -140,7 +141,7 @@ Monitoring & Observability (Prometheus + Grafana)
 Code Quality Enforcement (SonarCloud)
 
 It demonstrates how a developer and DevOps engineer can collaborate seamlessly to ship reliable software while maintaining full control over infrastructure, security, and observability.
-
+```
 🧱 Architecture Overview
 GitHub → Jenkins (EC2)
         ├── SonarCloud (Code Quality)
@@ -151,7 +152,7 @@ GitHub → Jenkins (EC2)
               ├── LoadBalancer Service
               ├── HPA (Auto Scaling)
               └── ServiceMonitor → Prometheus → Grafana
-
+```
 
 This workflow ensures continuous feedback, zero-downtime deployments, and automatic scaling based on application demand.
 
@@ -178,7 +179,7 @@ end-to-end-node-ci-cd/
 
 
 Everything is modular: infrastructure, application, and CI/CD pipelines are separated but fully integrated.
-
+---
 🌟 Implementation Journey
 1️⃣ Building the Application
 
@@ -191,7 +192,7 @@ Node.js HTTP service exposing:
 /metrics → Prometheus metrics
 
 All dependencies are installed inside Docker — no manual npm commands needed.
-
+---
 2️⃣ Containerization
 
 Dockerfile uses Node 18 runtime
@@ -201,7 +202,7 @@ Exposes port 3000
 Image creation and tagging are fully automated in Jenkins
 
 Taging uses Jenkins BUILD_NUMBER for version control
-
+---
 3️⃣ Infrastructure Provisioning (Terraform)
 
 Terraform provisions:
@@ -229,7 +230,7 @@ aws eks update-kubeconfig --region us-east-1 --name devops-eks
 
 
 This kubeconfig is uploaded to Jenkins as a secure file credential.
-
+---
 4️⃣ Jenkins Setup
 
 Jenkins runs on an EC2 instance
@@ -243,13 +244,13 @@ AWS access
 Kubernetes kubeconfig
 
 SonarCloud token
-
+---
 5️⃣ GitHub Integration
 
 Pipeline triggered on push via webhook
 
 Repository is fully connected to Jenkins SCM pipeline
-
+---
 6️⃣ Jenkins Pipeline Overview
 
 Pipeline stages:
@@ -268,68 +269,74 @@ Install Monitoring → Helm deploy of Prometheus + Grafana
 
 Tools configured in Jenkins: JDK 17, NodeJS 18
 Plugins used: Docker Pipeline, NodeJS, Kubernetes CLI, AWS Credentials, GitHub, SonarQube Scanner
+---
+7️⃣ **Static Code Analysis (SonarCloud)**
 
-7️⃣ Static Code Analysis (SonarCloud)
+- Dockerized SonarCloud scanner ensures quality gates
 
-Dockerized SonarCloud scanner ensures quality gates
-
-Pipeline fails if code does not meet standards
+- Pipeline fails if code does not meet standards
 
 Code issues visible in SonarCloud dashboard
+---
+8️⃣ **Docker Build & Push**
 
-8️⃣ Docker Build & Push
+- Jenkins builds image from app/Dockerfile
 
-Jenkins builds image from app/Dockerfile
+- Tags using BUILD_NUMBER
 
-Tags using BUILD_NUMBER
-
-Pushes image to AWS ECR
+- Pushes image to AWS ECR
 
 Example:
-
+```
 663395718372.dkr.ecr.us-east-1.amazonaws.com/node-repo
-
+```
 
 No manual intervention required.
+---
+9️⃣ **Kubernetes Deployment & Monitoring**
 
-9️⃣ Kubernetes Deployment & Monitoring
 
-Deployment:
+**Deployment Flow:**
 
-Jenkins updates deployment YAML with new image tag
+- Jenkins updates image tag dynamically
 
-Applies manifests from K8s/
+- Applies manifests from K8s/
 
-Waits for rollout completion (kubectl rollout status)
+- Verifies rollout status
+```
+kubectl rollout status deployment/node-app
+```
 
-Resources deployed:
+**Resources deployed:**
 
-Deployment
+- Deployment
 
-LoadBalancer Service
+- LoadBalancer Service
 
-Horizontal Pod Autoscaler
+- Horizontal Pod Autoscaler
 
-ServiceMonitor
+- ServiceMonitor
 
-Monitoring & Observability:
+**Monitoring & Observability:**
 
-Prometheus scrapes metrics automatically
+- Prometheus scrapes metrics automatically
 
-Grafana dashboards visualize pod and application metrics
+- Grafana dashboards visualize pod and application metrics
 
 Access Grafana locally:
-
+```
 kubectl port-forward svc/prometheus-grafana -n monitoring 3001:80
-
+```
 
 Login via Kubernetes secrets for admin credentials.
+---
 
-🔟 Cleanup
+🔟 **Cleanup**
 
 To avoid costs after testing:
-
+```
 helm uninstall prometheus -n monitoring
 kubectl delete -f K8s/
 cd infra
 terraform destroy
+```
