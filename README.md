@@ -70,14 +70,14 @@ Everything is modular: infrastructure, application, and CI/CD pipelines are sepa
 
 - Node.js HTTP service exposing:
 
-  - / → main endpoint
+  - main endpoint
 
-  - /health → readiness & liveness for Kubernetes
+  - health → readiness & liveness for Kubernetes
 
-  - /metrics → Prometheus metrics
+  - metrics → Prometheus metrics
 
 - Designed for kubernetes probe
-- All dependencies are installed inside Docker — no manual npm commands needed.
+- Application dependencies are baked into the Docker image, ensuring consistent and reproducible deployments with no manual runtime setup..
 
 ---
 2️⃣ **Containerization**
