@@ -95,15 +95,15 @@ Everything is modular: infrastructure, application, and CI/CD pipelines are sepa
 
 Terraform provisions:
 
-VPC, subnets, and networking
+- VPC, subnets, and networking
 
-EKS cluster (devops-eks)
+- EKS cluster (devops-eks)
 
-Node groups
+- Node groups
 
-IAM roles and policies
+- IAM roles and policies
 
-ECR repository
+- ECR repository
 
 Apply Terraform scripts:
 ```
@@ -113,29 +113,31 @@ terraform apply
 ```
 
 Configure Kubernetes access:
-
+```
 aws eks update-kubeconfig --region us-east-1 --name devops-eks
-
+```
 
 This kubeconfig is uploaded to Jenkins as a secure file credential.
 ---
 4️⃣ Jenkins Setup
 
-Jenkins runs on an EC2 instance
+- Jenkins runs on an EC2 instance
 
-script.sh bootstraps the server with required packages
+- script.sh bootstraps the server with required packages
 
-Credentials added securely:
+- Credentials added securely:
 
-AWS access
+    - AWS access
 
-Kubernetes kubeconfig
+    - Kubernetes kubeconfig
 
-SonarCloud token
+    - SonarCloud token
 ---
 5️⃣ GitHub Integration
 
-Pipeline triggered on push via webhook
+- Pipeline triggered on push via webhook
+
+- Jenkins uses SCM-based pipeline from Jenkinsfile
 
 Repository is fully connected to Jenkins SCM pipeline
 ---
@@ -143,20 +145,28 @@ Repository is fully connected to Jenkins SCM pipeline
 
 Pipeline stages:
 
-Checkout Code → Pull latest changes from GitHub
+1. Checkout Code → Pull latest changes from GitHub
 
-SonarCloud Scan → Static analysis, automated quality gates
+2. SonarCloud Scan → Static analysis, automated quality gates
 
-Docker Build → Build & tag image
+3. Docker Build → Build & tag image
 
-Push to ECR → Authenticate and push image
+4. Push to ECR → Authenticate and push image
 
-Deploy to EKS → Apply Kubernetes manifests
+5. Deploy to EKS → Apply Kubernetes manifests
 
-Install Monitoring → Helm deploy of Prometheus + Grafana
+6. Install Monitoring → Helm deploy of Prometheus + Grafana
 
-Tools configured in Jenkins: JDK 17, NodeJS 18
-Plugins used: Docker Pipeline, NodeJS, Kubernetes CLI, AWS Credentials, GitHub, SonarQube Scanner
+Tools configured in Jenkins:
+- JDK 17
+- NodeJS 18
+Plugins used:
+- Docker Pipeline
+- NodeJS
+- Kubernetes CLI
+- AWS Credentials
+- GitHub
+- SonarQube Scanner
 ---
 7️⃣ **Static Code Analysis (SonarCloud)**
 
