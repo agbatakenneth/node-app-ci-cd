@@ -1,6 +1,6 @@
-#🚀 End-to-End DevOps CI/CD: Node.js on AWS EKS
+🚀 End-to-End DevOps CI/CD: Node.js on AWS EKS
 
-##📌 Project Overview
+📌 Project Overview
 
 Imagine shipping a Node.js application to production **with zero manual steps**, full automation, and enterprise-grade standards.
 
@@ -64,9 +64,9 @@ end-to-end-node-ci-cd/
 Everything is modular: infrastructure, application, and CI/CD pipelines are separated but fully integrated.
 
 ---
-🌟# Implementation Journey
+🌟 Implementation Journey
 
-1️⃣ ## Building the Application
+1️⃣ **Building the Application**
 
 - Node.js HTTP service exposing:
 
@@ -80,7 +80,7 @@ Everything is modular: infrastructure, application, and CI/CD pipelines are sepa
 - All dependencies are installed inside Docker — no manual npm commands needed.
 
 ---
-2️⃣ ## Containerization
+2️⃣ **Containerization**
 
 - Dockerfile uses Node 18 runtime
 
@@ -91,7 +91,7 @@ Everything is modular: infrastructure, application, and CI/CD pipelines are sepa
 - Taging uses Jenkins BUILD_NUMBER for version control
 ---
 
-3️⃣## Infrastructure Provisioning (Terraform)
+3️⃣ **Infrastructure Provisioning (Terraform)**
 
 Terraform provisions:
 
@@ -118,8 +118,9 @@ aws eks update-kubeconfig --region us-east-1 --name devops-eks
 ```
 
 This kubeconfig is uploaded to Jenkins as a secure file credential.
+
 ---
-4️⃣ Jenkins Setup
+4️⃣ **Jenkins Setup**
 
 - Jenkins runs on an EC2 instance
 
@@ -133,15 +134,16 @@ This kubeconfig is uploaded to Jenkins as a secure file credential.
 
     - SonarCloud token
 ---
-5️⃣ GitHub Integration
+5️⃣ **GitHub Integration**
 
 - Pipeline triggered on push via webhook
 
 - Jenkins uses SCM-based pipeline from Jenkinsfile
 
 Repository is fully connected to Jenkins SCM pipeline
+
 ---
-6️⃣ Jenkins Pipeline Overview
+6️⃣ **Jenkins Pipeline Overview**
 
 Pipeline stages:
 
@@ -175,6 +177,7 @@ Plugins used:
 - Pipeline fails if code does not meet standards
 
 Code issues visible in SonarCloud dashboard
+
 ---
 8️⃣ **Docker Build & Push**
 
@@ -190,6 +193,7 @@ Example:
 ```
 
 No manual intervention required.
+
 ---
 9️⃣ **Kubernetes Deployment & Monitoring**
 
@@ -225,8 +229,8 @@ Access Grafana locally:
 ```
 kubectl port-forward svc/prometheus-grafana -n monitoring 3001:80
 ```
-
 Login via Kubernetes secrets for admin credentials.
+
 ---
 
 🔟 **Cleanup**
